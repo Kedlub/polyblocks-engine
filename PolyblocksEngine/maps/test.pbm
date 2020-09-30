@@ -1,0 +1,10 @@
+type NORMAL
+brush [10,0,10] [-10,-0.5,-10] grass.DDS
+brush [0.5,1,0.5] [-0.5,0,-0.5] grass.DDS
+brush [4,0,4] [10,1,8] grass.DDS
+brush [10,0,10] [10.5,5,-10] brick.DDS
+brush [10,0,10] [-10,5,10.5] brick.DDS
+brush [10,0,-10] [-10,5,-10.5] brick.DDS
+brush [-10,0,10] [-10.5,5,-10] brick.DDS
+#staticprop [2,1.65,0] [1,1,1] charmander.obj charmander.DDS
+staticprop [2,1,0] [0.5,0.5,0.5] charmander.obj charmander.DDS
