@@ -1,6 +1,7 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 #include <unordered_map>
+#include <vector>
 
 extern std::unordered_map<std::string, GLuint> textureMap;
 

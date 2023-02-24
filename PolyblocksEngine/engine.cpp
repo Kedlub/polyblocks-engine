@@ -232,7 +232,7 @@ int main()
 		printText2D(str.c_str() , 10, 480, 20, true);*/
 		//std::cout << "š = " << +char('š') << "\n";
 		int y = 540;
-		for each (string var in textBuffer)
+		for(auto var : textBuffer)
 		{
 			printText2D(var.c_str(), 10, y, 10);
 			y -= 20;

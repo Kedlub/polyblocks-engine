@@ -33,7 +33,7 @@ unordered_map<string, GLuint> shaderMap;
 bool loadAllShaders()
 {
 	bool ok = true;
-	for each (Shader var in shaderFiles)
+	for (auto var : shaderFiles)
 	{
 		GLuint shaderID = LoadShaders(var.vertexFile.c_str(), var.fragmentFile.c_str());
 		shaderMap[var.shaderName] = shaderID;

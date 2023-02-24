@@ -2,6 +2,7 @@
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
+#include <cstring>
 #include "shader.hpp"
 #include "texture.hpp"
 #include "utils.hpp"

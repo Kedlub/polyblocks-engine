@@ -131,7 +131,7 @@ void Brush::GenBuffer() {
 		-1,1,-1,
 		1,1,-1
 	};*/
-	std::vector<glm::vec3>& vertices = loadOBJModel("cube.obj").vertices;
+	const std::vector<glm::vec3>& vertices = loadOBJModel("cube.obj").vertices;
 	float xsize = from.x - to.x;
 	float ysize = from.y - to.y;
 	float zsize = from.z - to.z;
@@ -333,7 +333,7 @@ World loadMap(const char* mapName) {
 			std::vector<std::string> pos1;
 			std::vector<std::string> pos2;
 			std::string tex;
-			for each (std::string var in str)
+			for (auto var : str)
 			{
 				//printf("Parsing string %s\n", std::string(var));
 				//std::cout << "Parsing string " << var << std::endl;
@@ -406,7 +406,7 @@ World::World(std::string errorText) : errorText(errorText)
 
 void World::render(glm::mat4 viewMatrix, glm::mat4 projectMatrix)
 {
-	for each (BaseObject * obj in staticObjects)
+	for(auto obj : staticObjects)
 	{
 		obj->render(viewMatrix, projectMatrix);
 	}

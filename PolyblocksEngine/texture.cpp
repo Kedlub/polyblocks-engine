@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <cstring>
 #include <iostream>
 #include <unordered_map>
 #include "texture.hpp"
