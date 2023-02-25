@@ -114,7 +114,7 @@ int main()
 	glfwSetCursorPos(window, width / 2, height / 2);
 
 	printf("[engine.cpp] Loading font renderer...\n");
-	initText2D("textures/RobotoMono.DDS", "textures/RobotoMonoOutline.DDS", "textures/RobotoMonoBold.DDS", "textures/RobotoMonoBoldOutline.DDS");
+	initText2D("textures/RobotoMono.dds", "textures/RobotoMonoOutline.dds", "textures/RobotoMonoBold.dds", "textures/RobotoMonoBoldOutline.dds");
 
 	glViewport(0, 0, width, height);
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
