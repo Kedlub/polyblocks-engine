@@ -2,6 +2,7 @@
 #define WORLD_HPP
 #include <glad/glad.h>
 #include "objloader.hpp"
+#include "aabb.hpp"
 
 
 
@@ -44,6 +45,7 @@ public:
 	GLuint verticesID;
 	GLuint uvID;
 	GLuint normalID;
+	AABB aabb;
 
 	Brush(glm::vec3 f, glm::vec3 t, std::string tex);
 

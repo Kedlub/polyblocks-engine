@@ -89,6 +89,10 @@ Brush::Brush(glm::vec3 f, glm::vec3 t, std::string tex)
 	from = f;
 	to = t;
 	texture = tex;
+	// Calculate center position and extents for AABB
+	glm::vec3 center = (from + to) / 2.0f;
+	glm::vec3 extents = (to - from) / 2.0f;
+	aabb = AABB(center.x, center.y, center.z, extents.x, extents.y, extents.z);
 }
 
 void Brush::GenBuffer() {

@@ -8,6 +8,12 @@ project ("PolyblocksEngine")
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/")
+include(GetGitRevisionDescription)
+get_git_head_revision(GIT_REFSPEC GIT_SHA1)
+
 # Include sub-projects.
 add_subdirectory ("PolyblocksEngine")
 add_subdirectory("libs/glfw/")

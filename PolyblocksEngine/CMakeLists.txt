@@ -7,7 +7,7 @@ cmake_minimum_required (VERSION 3.8)
 include_directories(../libs/glm/)
 
 # Add source to this project's executable.
-add_executable (PolyblocksEngine "engine.cpp" "engine.h" "shader.cpp" "render.cpp" "texture.cpp" "controls.cpp" "objloader.cpp" "world.cpp" "utils.cpp" "gui.cpp")
+add_executable (PolyblocksEngine "engine.cpp" "engine.h" "shader.cpp" "render.cpp" "texture.cpp" "controls.cpp" "objloader.cpp" "world.cpp" "utils.cpp" "gui.cpp" "aabb.cpp" "aabb.hpp")
 
 add_custom_command(TARGET PolyblocksEngine POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory

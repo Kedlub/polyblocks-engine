@@ -1,6 +1,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "aabb.hpp"
 
 glm::mat4 ViewMatrix;
 glm::mat4 ProjectionMatrix;
@@ -14,6 +15,7 @@ glm::mat4 getProjectionMatrix() {
 
 // position
 glm::vec3 position = glm::vec3(0, 0, 5);
+glm::vec3 velocity = glm::vec3(0, 0, 0);
 // horizontal angle : toward -Z
 float horizontalAngle = 3.14f;
 // vertical angle : 0, look at the horizon
@@ -28,6 +30,9 @@ void setPlayerPosition(glm::vec3 pos) {
 float defaultSpeed = 3.0f;
 float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.05f;
+float deccelerationSpeed = 0.5f;
+
+AABB playerAABB = AABB(position.x, position.y, position.z, 0.5f, 1.0f, 0.5f);
 
 float oldXpos = 0;
 float oldYpos = 0;
@@ -131,8 +136,11 @@ void computeMatricesFromInputsGravity(GLFWwindow* window) {
 	double currentTime = glfwGetTime();
 	float deltaTime = float(currentTime - lastTime);
 
-	position.y += yAcc / 60;
-	yAcc -= deltaTime * 25;
+	// Slow down the velocity using decceleration
+	velocity.x -= velocity.x * deccelerationSpeed * deltaTime;
+	velocity.z -= velocity.z * deccelerationSpeed * deltaTime;
+
+	velocity.y -= 9.81f * deltaTime;
 
 	// Get mouse position
 	double xpos, ypos;
@@ -200,23 +208,27 @@ void computeMatricesFromInputsGravity(GLFWwindow* window) {
 
 	// Move forward
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		position += forward * deltaTime * speed;
+		velocity += forward * deltaTime * speed;
 	}
 	// Move backward
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		position -= forward * deltaTime * speed;
+		velocity -= forward * deltaTime * speed;
 	}
 	// Strafe right
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		position += right * deltaTime * speed;
+		velocity += right * deltaTime * speed;
 	}
 	// Strafe left
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		position -= right * deltaTime * speed;
+		velocity -= right * deltaTime * speed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && onGround) {
-		yAcc = 5;
+		velocity.y = 5/60;
 	}
+
+	position += velocity * deltaTime;
+
+	playerAABB.updatePosition(position.x, position.y, position.z);
 
 	float FoV = initialFoV;
 
