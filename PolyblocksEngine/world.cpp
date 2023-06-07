@@ -16,10 +16,12 @@
 #include "render.hpp"
 #include "gui.hpp"
 #include "controls.hpp"
+#include "aabb.hpp"
 #include <chrono>
 #include <thread>
 
 World currentWorld;
+aabb::Tree worldTree(3);
 bool inGame = false;
 
 //Base implementation of render, other class which has to render something must implement this
@@ -84,7 +86,7 @@ void StaticProp::render(glm::mat4 viewMatrix, glm::mat4 projectMatrix) {
 }
 
 //Create Brush, a basic world object (wall, floor)
-Brush::Brush(glm::vec3 f, glm::vec3 t, std::string tex)
+Brush::Brush(glm::vec3 f, glm::vec3 t, std::string tex, int aabb)
 {
 	from = f;
 	to = t;
@@ -92,7 +94,8 @@ Brush::Brush(glm::vec3 f, glm::vec3 t, std::string tex)
 	// Calculate center position and extents for AABB
 	glm::vec3 center = (from + to) / 2.0f;
 	glm::vec3 extents = (to - from) / 2.0f;
-	aabb = AABB(center.x, center.y, center.z, extents.x, extents.y, extents.z);
+	//aabb = AABB(center.x, center.y, center.z, extents.x, extents.y, extents.z);
+	aabbID = aabb;
 }
 
 void Brush::GenBuffer() {
@@ -276,6 +279,7 @@ World loadMap(const char* mapName) {
 	MapType type;
 	std::vector<BaseObject*> objects;
 	std::vector<std::string> texNames;
+	int index = 1;
 	for (std::string line; getline(input, line); )
 	{
 		//printf("[Map Loader] Line %s: %s\n", std::string(std::to_string(lineID)).c_str(), std::string(line).c_str());
@@ -360,7 +364,39 @@ World loadMap(const char* mapName) {
 			}
 			//std::cout << "[Map Loader] Creating brush , original string, from: [" << pos1[0] << "," << pos1[1] << "," << pos1[2] << "] to: [" << pos2[0] << "," << pos2[1] << "," << pos1[2] << "]\n";
 			//std::cout << "[Map Loader] Creating brush, from: [" << std::stof(pos1[0]) << "," << std::stof(pos1[1]) << "," << std::stof(pos1[2]) << "] to: [" << std::stof(pos2[0]) << "," << std::stof(pos2[1]) << "," << std::stof(pos1[2]) << "]\n";
-			Brush& br = *new Brush(glm::vec3(std::stof(pos1[0]), std::stof(pos1[1]), std::stof(pos1[2])), glm::vec3(std::stof(pos2[0]), std::stof(pos2[1]), std::stof(pos2[2])), tex);
+
+			// Get the bounds of the brush (the two corners)
+			// Pos1 and Pos2 contains the two corners of the brush, but they are not sorted, so we need to calculate the bounds
+			// First we calculate the center position
+			std::vector<double> centerPosition = { (std::stof(pos1[0]) + std::stof(pos2[0])) / 2.0f, (std::stof(pos1[1]) + std::stof(pos2[1])) / 2.0f, (std::stof(pos1[2]) + std::stof(pos2[2])) / 2.0f };
+			// Then we calculate the bounds
+
+			std::vector<double> lowerBound = { centerPosition[0] - std::abs(std::stof(pos1[0]) - std::stof(pos2[0])) / 2.0f, centerPosition[1] - std::abs(std::stof(pos1[1]) - std::stof(pos2[1])) / 2.0f, centerPosition[2] - std::abs(std::stof(pos1[2]) - std::stof(pos2[2])) / 2.0f };
+			std::vector<double> upperBound = { centerPosition[0] + std::abs(std::stof(pos1[0]) - std::stof(pos2[0])) / 2.0f, centerPosition[1] + std::abs(std::stof(pos1[1]) - std::stof(pos2[1])) / 2.0f, centerPosition[2] + std::abs(std::stof(pos1[2]) - std::stof(pos2[2])) / 2.0f };
+
+			//std::vector<double> lowerBound({ std::stof(pos1[0]), std::stof(pos1[1]), std::stof(pos1[2])});
+			//std::vector<double> upperBound({ std::stof(pos2[0]), std::stof(pos2[1]), std::stof(pos2[2])});
+			
+			// Print out the bounds
+			std::cout << "Lower bound: ";
+			for (auto i : lowerBound) {
+			  std::cout << i << " ";
+			}
+			std::cout << std::endl;
+
+			std::cout << "Upper bound: ";
+			for (auto i : upperBound) {
+			  std::cout << i << " ";
+			}
+			std::cout << std::endl;
+
+			if(isLowerBoundGreaterThanUpper(lowerBound, upperBound) == true) {
+			  std::swap(lowerBound, upperBound);
+			}
+
+			worldTree.insertParticle(index, lowerBound, upperBound);
+			index++;
+			Brush& br = *new Brush(glm::vec3(std::stof(pos1[0]), std::stof(pos1[1]), std::stof(pos1[2])), glm::vec3(std::stof(pos2[0]), std::stof(pos2[1]), std::stof(pos2[2])), tex, index);
 			br.GenBuffer();
 			objects.push_back(&br);
 			texNames.push_back(tex);

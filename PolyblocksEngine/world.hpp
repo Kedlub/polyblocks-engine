@@ -45,9 +45,9 @@ public:
 	GLuint verticesID;
 	GLuint uvID;
 	GLuint normalID;
-	AABB aabb;
+	int aabbID;
 
-	Brush(glm::vec3 f, glm::vec3 t, std::string tex);
+	Brush(glm::vec3 f, glm::vec3 t, std::string tex, int aabb);
 
 	void GenBuffer();
 
@@ -79,5 +79,6 @@ private:
 
 extern World currentWorld;
 extern bool inGame;
+extern aabb::Tree worldTree;
 
 #endif // WORLD_HPP

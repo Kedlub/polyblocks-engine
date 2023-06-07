@@ -55,8 +55,8 @@ size_t split(const std::string& txt, std::vector<std::string>& strs, char ch)
 	return strs.size();
 }
 
-std::unordered_map<char, int> fixedChars({ {'ì',236}, {'š', 154}, {'è', 232}, {'ø', 248}, {'ž', 158},
-										{'ý', 253}, {'á', 225}, {'í', 237}, {'é', 233}, {'ù', 249}, {'ú', 250} });
+std::unordered_map<char, int> fixedChars({ {'ï¿½',236}, {'ï¿½', 154}, {'ï¿½', 232}, {'ï¿½', 248}, {'ï¿½', 158},
+										{'ï¿½', 253}, {'ï¿½', 225}, {'ï¿½', 237}, {'ï¿½', 233}, {'ï¿½', 249}, {'ï¿½', 250} });
 
 int getFixedCharID(char ch) {
 	for (std::pair<char, int> pair : fixedChars) {
@@ -65,4 +65,14 @@ int getFixedCharID(char ch) {
 		}
 	}
 	return +ch;
+}
+
+bool isLowerBoundGreaterThanUpper(std::vector<double> lowerBound, std::vector<double> upperBound) {
+	for (unsigned int i = 0; i < 3; i++) {
+  		// Validate the bound.
+  		if (lowerBound[i] > upperBound[i]) {
+        		return true;
+    		}
+	}
+	return false;
 }

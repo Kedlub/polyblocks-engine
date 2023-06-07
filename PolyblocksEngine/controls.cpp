@@ -32,7 +32,7 @@ float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.05f;
 float deccelerationSpeed = 0.5f;
 
-AABB playerAABB = AABB(position.x, position.y, position.z, 0.5f, 1.0f, 0.5f);
+//AABB playerAABB = AABB(position.x, position.y, position.z, 0.5f, 1.0f, 0.5f);
 
 float oldXpos = 0;
 float oldYpos = 0;
@@ -200,7 +200,7 @@ void computeMatricesFromInputsGravity(GLFWwindow* window) {
 	}
 	if (position.y <= 0) {
 		onGround = true;
-		position.y = 0;
+		velocity.y = 0;
 	}
 	else {
 		onGround = false;
@@ -228,7 +228,7 @@ void computeMatricesFromInputsGravity(GLFWwindow* window) {
 
 	position += velocity * deltaTime;
 
-	playerAABB.updatePosition(position.x, position.y, position.z);
+	//playerAABB.updatePosition(position.x, position.y, position.z);
 
 	float FoV = initialFoV;
 
