@@ -270,7 +270,7 @@ enum class MapType
 
 //Loads map from maps folder, and returns World object with it
 World loadMap(const char* mapName) {
-	std::ifstream input("maps/" + std::string(mapName) + ".pbm");
+	std::ifstream input("maps/" + std::string(mapName) + ".bmap");
 	printf("[Map Loader] Loading map \"%s\"\n", mapName);
 	drawInfo("Loading map...", mapName);
 	noclip = true;
