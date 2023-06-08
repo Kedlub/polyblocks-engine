@@ -23,9 +23,9 @@ Shader::Shader(string name, string ff, string vf)
 }
 
 Shader shaderFiles[]{
-	Shader("Diffuse", "shaders/DiffuseShader.fragmentshader", "shaders/DiffuseShader.vertexshader"),
-	Shader("Unlit", "shaders/UnlitShader.fragmentshader", "shaders/UnlitShader.vertexshader"),
-	Shader("GUI", "shaders/GUI.fragmentshader", "shaders/GUI.vertexshader")
+	Shader("Diffuse", "shaders/DiffuseShader.frag.glsl", "shaders/DiffuseShader.vert.glsl"),
+	Shader("Unlit", "shaders/UnlitShader.frag.glsl", "shaders/UnlitShader.vert.glsl"),
+	Shader("GUI", "shaders/GUI.frag.glsl", "shaders/GUI.vert.glsl")
 };
 
 unordered_map<string, GLuint> shaderMap;

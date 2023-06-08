@@ -12,5 +12,6 @@ _deps
 .vs/
 .cache
 .vscode
+cmake-build-*
 out/
 build/
