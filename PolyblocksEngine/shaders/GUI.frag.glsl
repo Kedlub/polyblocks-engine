@@ -6,8 +6,8 @@ out vec4 color;
 // Values that stay constant for the whole mesh.
 uniform vec4 colorIN;
 
-void main(){
+void main() {
 
-	color = colorIN;
-	
+    color = colorIN;
+
 }
