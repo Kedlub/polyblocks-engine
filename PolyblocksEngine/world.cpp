@@ -44,7 +44,7 @@ void StaticProp::render(glm::mat4 viewMatrix, glm::mat4 projectMatrix) {
 	glm::mat4 ModelMatrix = glm::translate(glm::mat4(1.0f), position) * sizeMatrix;
 	glm::mat4 MVP = projectMatrix * viewMatrix * ModelMatrix;
 
-	GLuint shader = shaderMap["Unlit"];
+	GLuint shader = shaderMap["Diffuse"];
 	glUseProgram(shader);
 	glUniformMatrix4fv(glGetUniformLocation(shader, "MVP"), 1, GL_FALSE, &MVP[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(shader, "M"), 1, GL_FALSE, &ModelMatrix[0][0]);
@@ -53,6 +53,12 @@ void StaticProp::render(glm::mat4 viewMatrix, glm::mat4 projectMatrix) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureMap[texture]);
 	glUniform1i(glGetUniformLocation(shader, "myTextureSampler"), 0);
+
+    GLuint LightID = glGetUniformLocation(shader, "LightPosition_worldspace");
+    glm::vec3 lightPos = glm::vec3(4,4,4);
+    glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
+    
+    glUniform3f(glGetUniformLocation(shader, "SunPosition_worldspace"), lightPos.x, lightPos.y, lightPos.z);
 
 	// 1st attribute buffer : vertices
 	glEnableVertexAttribArray(0);
@@ -77,6 +83,18 @@ void StaticProp::render(glm::mat4 viewMatrix, glm::mat4 projectMatrix) {
 		0,                                // stride
 		(void*)0                          // array buffer offset
 	);
+
+    // 3rd attribute buffer : normals
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, model.normalsID);
+    glVertexAttribPointer(
+            2,                                // attribute
+            3,                                // size
+            GL_FLOAT,                         // type
+            GL_FALSE,                         // normalized?
+            0,                                // stride
+            (void*)0                          // array buffer offset
+    );
 
 	// Draw the triangle !
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)model.vertices.size()); // 3 indices starting at 0 -> 1 triangle

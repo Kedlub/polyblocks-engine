@@ -46,7 +46,7 @@ public:
 	GLuint uvID;
 	GLuint normalID;
 	int aabbID;
-
+        
 	Brush(glm::vec3 f, glm::vec3 t, std::string tex, int aabb);
 
 	void GenBuffer();
