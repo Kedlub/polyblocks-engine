@@ -10,6 +10,7 @@
 #include "world.hpp"
 #include "gui.hpp"
 #include "global.hpp"
+#include "console.hpp"
 //#include "../libs/glfw-3.3.2/deps/linmath.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ using namespace std;
 int width, height;
 GLFWwindow *window;
 std::vector<GUIContainer> guiList;
+Console console; 
 
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -41,7 +43,7 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
                 BaseWidget *widget = gui.getWidgetByPos(x, y);
                 if (ButtonWidget *button = dynamic_cast<ButtonWidget *>(widget)) {
                     cout << "Clicked on button with text " << button->text << endl;
-                    executeAction(button->action);
+                    runCommand(button->action);
                     break;
                 }
             }
@@ -80,6 +82,8 @@ int main() {
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL
+
+    registerDefaultCommands();
 
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     //TODO make better way to choose fullscreen

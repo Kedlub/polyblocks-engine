@@ -354,18 +354,3 @@ void drawInfo(std::string line1, std::string line2, bool clear) {
         glfwPollEvents();
     }
 }
-
-void executeAction(std::string arg) {
-    std::vector<std::string> args;
-    split(arg, args, ' ');
-    std::string action = args[0];
-    if (action == "TestLevel") {
-        currentWorld = loadMap("test");
-        inGame = true;
-    } else if (action == "Load") {
-        currentWorld = loadMap(args[1].c_str());
-        inGame = true;
-    } else if (action == "ExitGame") {
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-    }
-}
